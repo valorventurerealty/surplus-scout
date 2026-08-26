@@ -20,10 +20,15 @@ RUN mkdir -p storage/app/private storage/framework/cache storage/framework/sessi
     && composer install --no-interaction --prefer-dist
 
 FROM base AS production
+ARG APP_UID=1000
+ARG APP_GID=1000
+
 COPY . .
 RUN mkdir -p storage/app/private storage/framework/cache storage/framework/sessions storage/framework/views storage/logs bootstrap/cache \
     && composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader \
-    && chown -R www-data:www-data storage bootstrap/cache
+    && groupadd --gid "${APP_GID}" scout \
+    && useradd --uid "${APP_UID}" --gid "${APP_GID}" --create-home --shell /usr/sbin/nologin scout \
+    && chown -R scout:scout storage bootstrap/cache
 
-USER www-data
+USER scout
 CMD ["php", "artisan", "queue:work", "database", "--queue=surplus-research", "--sleep=3", "--rest=1", "--tries=3", "--timeout=180", "--max-time=3600"]

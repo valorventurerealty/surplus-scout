@@ -3,6 +3,9 @@ services:
     build:
       context: .
       target: production
+      args:
+        APP_UID: ${VVR_SCOUT_UID:-1000}
+        APP_GID: ${VVR_SCOUT_GID:-1000}
     restart: unless-stopped
     env_file:
       - .env.scout
