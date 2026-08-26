@@ -9,6 +9,7 @@ This deployment runs only the Laravel `surplus-research` queue. It does not expo
 - A writable persistent directory on the 1TB data drive
 - A worker-specific production `.env.scout`
 - Production database access restricted to this machine
+- Namecheap SSH access with a dedicated authorized key for the database tunnel
 - The configured Osceola secure relay when direct Clerk downloads are unavailable
 
 ## Configure
@@ -17,7 +18,8 @@ This deployment runs only the Laravel `surplus-research` queue. It does not expo
 2. Add the production `APP_KEY`, database connection, and relay values locally.
 3. Confirm `VVR_SCOUT_DATA_PATH` and `VVR_SCOUT_LOG_PATH` are writable directories on the 1TB drive.
 4. Set `VVR_SCOUT_UID` and `VVR_SCOUT_GID` to the output of `id -u` and `id -g` so the unprivileged container user can write those directories.
-5. Never run migrations from this worker.
+5. Set the `VVR_SCOUT_SSH_*` values for the Namecheap account and set Laravel's `DB_HOST=ssh-tunnel` and `DB_PORT=5522`.
+6. Never run migrations from this worker.
 
 ## Validate without production access
 

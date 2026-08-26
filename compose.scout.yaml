@@ -1,4 +1,46 @@
 services:
+  ssh-tunnel:
+    build:
+      context: .
+      target: ssh-tunnel
+      args:
+        APP_UID: ${VVR_SCOUT_UID:-1000}
+        APP_GID: ${VVR_SCOUT_GID:-1000}
+    restart: unless-stopped
+    command:
+      - -M
+      - "0"
+      - -N
+      - -T
+      - -o
+      - ExitOnForwardFailure=yes
+      - -o
+      - ServerAliveInterval=30
+      - -o
+      - ServerAliveCountMax=3
+      - -o
+      - StrictHostKeyChecking=yes
+      - -o
+      - UserKnownHostsFile=/ssh/known_hosts
+      - -i
+      - /ssh/id_ed25519
+      - -p
+      - ${VVR_SCOUT_SSH_PORT:-21098}
+      - -L
+      - 0.0.0.0:${VVR_SCOUT_DB_TUNNEL_PORT:-5522}:127.0.0.1:3306
+      - ${VVR_SCOUT_SSH_USER:?Set VVR_SCOUT_SSH_USER}@${VVR_SCOUT_SSH_HOST:?Set VVR_SCOUT_SSH_HOST}
+    volumes:
+      - type: bind
+        source: ${VVR_SCOUT_SSH_PATH:?Set VVR_SCOUT_SSH_PATH to the private SSH key directory}
+        target: /ssh
+        read_only: true
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z 127.0.0.1 ${VVR_SCOUT_DB_TUNNEL_PORT:-5522}"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+
   scout-worker:
     build:
       context: .
@@ -7,6 +49,9 @@ services:
         APP_UID: ${VVR_SCOUT_UID:-1000}
         APP_GID: ${VVR_SCOUT_GID:-1000}
     restart: unless-stopped
+    depends_on:
+      ssh-tunnel:
+        condition: service_healthy
     env_file:
       - .env.scout
     environment:

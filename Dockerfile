@@ -19,6 +19,17 @@ COPY . .
 RUN mkdir -p storage/app/private storage/framework/cache storage/framework/sessions storage/framework/views storage/logs bootstrap/cache \
     && composer install --no-interaction --prefer-dist
 
+FROM alpine:3.22 AS ssh-tunnel
+ARG APP_UID=1000
+ARG APP_GID=1000
+
+RUN apk add --no-cache autossh openssh-client \
+    && addgroup -g "${APP_GID}" scout \
+    && adduser -D -u "${APP_UID}" -G scout scout
+
+USER scout
+ENTRYPOINT ["autossh"]
+
 FROM base AS production
 ARG APP_UID=1000
 ARG APP_GID=1000
