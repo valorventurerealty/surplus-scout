@@ -42,4 +42,4 @@ RUN mkdir -p storage/app/private storage/framework/cache storage/framework/sessi
     && chown -R scout:scout storage bootstrap/cache
 
 USER scout
-CMD ["php", "artisan", "queue:work", "database", "--queue=surplus-research", "--sleep=3", "--rest=1", "--tries=3", "--timeout=180", "--max-time=3600"]
+CMD ["php", "artisan", "queue:work", "database", "--queue=surplus-research", "--sleep=3", "--rest=1", "--tries=3", "--timeout=360", "--max-time=3600"]

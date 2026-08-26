@@ -17,7 +17,7 @@ class RunOsceolaSurplusResearchJob implements ShouldBeUnique, ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public int $tries = 1;
-    public int $timeout = 80;
+    public int $timeout = 300;
     public int $uniqueFor = 600;
 
     public function __construct(public readonly int $runId)

@@ -10,7 +10,10 @@ class SurplusResearchQueueIsolationTest extends TestCase
 {
     public function test_clerk_report_job_uses_the_dedicated_surplus_queue(): void
     {
-        $this->assertSame('surplus-research', (new RunOsceolaSurplusResearchJob(1))->queue);
+        $job = new RunOsceolaSurplusResearchJob(1);
+
+        $this->assertSame('surplus-research', $job->queue);
+        $this->assertSame(300, $job->timeout);
     }
 
     public function test_owner_research_job_uses_the_dedicated_surplus_queue(): void

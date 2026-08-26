@@ -18,7 +18,7 @@ while ($true) {
         --sleep=3 `
         --rest=1 `
         --tries=3 `
-        --timeout=180 `
+        --timeout=360 `
         --max-time=3600
 
     $exitCode = $LASTEXITCODE
