@@ -1,0 +1,1 @@
+<x-layouts.app title="Edit {{ $case->case_number }}" heading="Edit surplus case" subheading="{{ $case->case_number }}"><div class="mx-auto max-w-6xl rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900"><form method="POST" action="{{ route('surplus.update',$case) }}">@include('surplus._form')</form></div></x-layouts.app>

@@ -1,0 +1,1 @@
+<x-layouts.app title="Edit Event" heading="Edit event" subheading="Update the calendar record"><form method="POST" action="{{ route('calendar.update', $event) }}" class="mx-auto max-w-4xl rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">@include('calendar._form')</form></x-layouts.app>

@@ -1,0 +1,1 @@
+<x-layouts.app title="Edit Task Template" heading="Edit task template" subheading="Maintain a reusable work standard"><form method="POST" action="{{ route('task-templates.update', $template) }}" class="mx-auto max-w-4xl rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">@include('tasks.templates._form')</form></x-layouts.app>

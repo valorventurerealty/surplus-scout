@@ -1,0 +1,1 @@
+<x-layouts.app title="Add surplus case" heading="Add surplus case" subheading="Create a claimant recovery case and assign its next action"><div class="mx-auto max-w-6xl rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900"><form method="POST" action="{{ route('surplus.store') }}">@include('surplus._form')</form></div></x-layouts.app>

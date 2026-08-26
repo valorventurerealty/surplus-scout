@@ -1,0 +1,50 @@
+VVR Command Center V125 - Osceola Owner Research
+
+Existing files modified:
+- app/Http/Controllers/SurplusScoutOsceolaController.php
+- app/Models/SurplusCase.php
+- app/Providers/AppServiceProvider.php
+- config/surplus_research.php
+- resources/views/surplus-scout/osceola/index.blade.php
+- routes/web.php
+
+New production files:
+- app/Contracts/SurplusResearch/CountyOwnerResearchProviderInterface.php
+- app/Contracts/SurplusResearch/TrimNoticeExtractorInterface.php
+- app/Data/SurplusResearch/PropertyAppraiserRecordData.php
+- app/Data/SurplusResearch/TrimNoticeData.php
+- app/Enums/SurplusOwnerResearchStatus.php
+- app/Enums/SurplusOwnerType.php
+- app/Exceptions/OwnerResearchException.php
+- app/Http/Controllers/SurplusScoutOsceolaOwnerResearchController.php
+- app/Http/Requests/QueueSurplusOwnerResearchRequest.php
+- app/Jobs/ResearchOsceolaSurplusOwnerJob.php
+- app/Models/SurplusOwnerResearchAttempt.php
+- app/Models/SurplusOwnerResearchBatch.php
+- app/Models/SurplusOwnerResearchEvent.php
+- app/Services/SurplusResearch/Osceola/OsceolaPropertyAppraiserProvider.php
+- app/Services/SurplusResearch/Osceola/OsceolaTrimNoticeExtractor.php
+- app/Services/SurplusResearch/OwnerClassificationService.php
+- app/Services/SurplusResearch/OwnerComparisonService.php
+- app/Services/SurplusResearch/OwnerNameNormalizer.php
+- app/Services/SurplusResearch/SurplusOwnerResearchBatchService.php
+- app/Services/SurplusResearch/SurplusOwnerResearchService.php
+- database/migrations/2026_09_21_000056_create_osceola_owner_research_tables.php
+- resources/views/surplus-scout/osceola/owner-research-show.blade.php
+
+Tests:
+- tests/Feature/SurplusResearch/OsceolaOwnerResearchAuthorizationTest.php
+- tests/Feature/SurplusResearch/OsceolaOwnerResearchWorkflowTest.php
+- tests/Unit/SurplusResearch/OsceolaTrimNoticeExtractorTest.php
+- tests/Unit/SurplusResearch/OwnerNameAndClassificationTest.php
+
+Documentation:
+- DEPLOY-V125.md
+- docs/surplus-scout-osceola-owner-research.md
+
+Not included:
+- Sunbiz research
+- skip tracing
+- heir or trust-beneficiary research
+- calls, email, SMS, letters, or Stannp actions
+- CAPTCHA bypass or access-control bypass

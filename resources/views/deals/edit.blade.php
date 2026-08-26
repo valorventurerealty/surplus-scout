@@ -1,0 +1,1 @@
+<x-layouts.app title="Edit {{ $deal->deal_number }}" heading="Edit Deal" subheading="{{ $deal->deal_number }}"><form method="POST" action="{{ route('deals.update',$deal) }}" class="mx-auto max-w-6xl rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">@include('deals._form')</form></x-layouts.app>

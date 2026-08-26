@@ -1,0 +1,20 @@
+services:
+  scout-worker:
+    build:
+      context: .
+      target: production
+    restart: unless-stopped
+    env_file:
+      - .env.scout
+    environment:
+      LOCAL_FILESYSTEM_ROOT: /data/surplus-scout/private
+      PDF_TO_TEXT_BINARY: /usr/bin/pdftotext
+    volumes:
+      - type: bind
+        source: ${VVR_SCOUT_DATA_PATH:?Set VVR_SCOUT_DATA_PATH to a writable directory on the 1TB drive}
+        target: /data/surplus-scout
+      - type: bind
+        source: ${VVR_SCOUT_LOG_PATH:?Set VVR_SCOUT_LOG_PATH to a writable log directory on the 1TB drive}
+        target: /app/storage/logs
+    init: true
+    stop_grace_period: 30s
