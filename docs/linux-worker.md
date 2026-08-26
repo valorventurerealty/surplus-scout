@@ -19,7 +19,8 @@ This deployment runs only the Laravel `surplus-research` queue. It does not expo
 3. Confirm `VVR_SCOUT_DATA_PATH` and `VVR_SCOUT_LOG_PATH` are writable directories on the 1TB drive.
 4. Set `VVR_SCOUT_UID` and `VVR_SCOUT_GID` to the output of `id -u` and `id -g` so the unprivileged container user can write those directories.
 5. Set the `VVR_SCOUT_SSH_*` values for the Namecheap account and set Laravel's `DB_HOST=ssh-tunnel` and `DB_PORT=5522`.
-6. Never run migrations from this worker.
+6. Set `CACHE_STORE=database` and use the same `CACHE_PREFIX` as Namecheap so cross-host unique-job locks are released correctly.
+7. Never run migrations from this worker.
 
 ## Validate without production access
 
