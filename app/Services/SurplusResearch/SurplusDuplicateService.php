@@ -9,8 +9,8 @@ class SurplusDuplicateService
 {
     public function find(CountySurplusRecordData $record): ?SurplusCase
     {
-        return SurplusCase::query()->where('clerk_unique_key', $record->uniqueKey)->first()
-            ?? SurplusCase::query()
+        return SurplusCase::withTrashed()->where('clerk_unique_key', $record->uniqueKey)->first()
+            ?? SurplusCase::withTrashed()
                 ->where('state', $record->state)
                 ->whereRaw('LOWER(county) = ?', [strtolower($record->county)])
                 ->where('normalized_parcel_id', $record->parcelIdNormalized)

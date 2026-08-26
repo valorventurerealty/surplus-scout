@@ -65,6 +65,27 @@ class OsceolaSurplusImportTest extends TestCase
         $this->actingAs($user)->post(route('surplus-scout.osceola.runs.store'))->assertForbidden();
     }
 
+    public function test_a_current_report_restores_a_matching_soft_deleted_case(): void
+    {
+        $actor = User::factory()->create(['role' => UserRole::Owner, 'is_active' => true]);
+        $run = $this->createResearchRun($actor);
+        $case = SurplusCase::factory()->create([
+            'claimant_contact_id' => null, 'property_id' => null, 'assigned_user_id' => null,
+            'source_name' => 'Osceola County Clerk', 'county' => 'Osceola', 'state' => 'FL',
+            'parcel_id' => '3627316000000L1620', 'normalized_parcel_id' => '3627316000000L1620',
+            'tax_deed_number' => '69-2026', 'clerk_unique_key' => 'OSCEOLA|3627316000000L1620|69-2026',
+            'surplus_availability' => 'available', 'surplus_amount' => 8121.74,
+        ]);
+        $case->delete();
+
+        $result = app(SurplusImportService::class)->import($this->report('8121.74'), $run, $actor);
+
+        $this->assertSame(0, $result['new_records']);
+        $this->assertSame(1, $result['existing_records']);
+        $this->assertFalse($case->fresh()->trashed());
+        $this->assertSame(1, SurplusCase::withTrashed()->where('clerk_unique_key', $case->clerk_unique_key)->count());
+    }
+
     public function test_an_authorized_user_cannot_queue_two_active_runs(): void
     {
         Queue::fake();

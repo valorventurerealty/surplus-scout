@@ -47,7 +47,10 @@ class SurplusImportService
                     continue;
                 }
 
-                $case = SurplusCase::query()->whereKey($case->id)->lockForUpdate()->firstOrFail();
+                $case = SurplusCase::withTrashed()->whereKey($case->id)->lockForUpdate()->firstOrFail();
+                if ($case->trashed()) {
+                    $case->restore();
+                }
                 $oldAmount = $case->surplus_amount;
                 $amountChanged = $oldAmount === null || $this->toCents((string) $oldAmount) !== $this->toCents($record->surplusAmount);
                 if ($amountChanged) {
