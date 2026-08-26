@@ -12,7 +12,7 @@ for attempt in $(seq 1 120); do
         && [ -w "$storage_root/data" ] \
         && [ -w "$storage_root/logs" ]; then
         cd "$project_dir"
-        docker compose --env-file .env.scout -f compose.scout.yaml up -d
+        docker compose --env-file .env.scout -f compose.scout.yaml up -d --force-recreate
         logger -t vvr-surplus-scout 'Worker and SSH tunnel started successfully.'
         exit 0
     fi

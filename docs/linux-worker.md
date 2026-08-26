@@ -48,7 +48,7 @@ docker compose --env-file .env.scout -f compose.scout.yaml logs --tail=100 scout
 
 The `unless-stopped` restart policy causes Docker to restart the worker after a reboot when the Docker service is enabled.
 
-On Linux Mint, install `deploy/linux/start-scout-worker.sh` as a Startup Applications entry when the 1TB drive is mounted by the desktop session instead of `/etc/fstab`. The launcher waits up to ten minutes for the drive before restoring the tunnel and worker.
+On Linux Mint, install `deploy/linux/start-scout-worker.sh` as a Startup Applications entry when the 1TB drive might mount after Docker starts. The launcher waits up to ten minutes for the drive, then recreates the tunnel and worker so their bind mounts always reference the mounted filesystem.
 
 ## Stop
 
